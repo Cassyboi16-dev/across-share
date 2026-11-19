@@ -1,33 +1,49 @@
 "use client";
 
-export default function Navbar() {
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
+export default function Navbar() {
+    const pathname = usePathname();
+
+    if (pathname === "/sign-in" || pathname === "/sign-up") {
+        return null;
+    }
+
+
+    
     const navLinks = [
         { label: 'Home', url: '/' },
-        { label: 'Features', url: '/features' },
+        { label: 'Features', url: '/#features' },
         { label: 'About', url: '/About' },
-        { label: 'Integrations', url: '/integrations' }
+        { label: 'Integrations', url: '/integrations' },
     ]
 
 
     return (
-        <main className="sticky top-0 flex w-full justify-center p-6 bg-amber-50 rounded-b-2xl z-10">
-            <div className="flex items-center justify-center gap-10 text-center">
-                {navLinks.map((item) => (
-                    <a key={item.url} href={item.url} className="flex items-center justify-center text-center text-2xl text-black">
-                        {item.label}
-                    </a>
-                ))}
-            </div>
-            <div className="flex ml-14 gap-5 items-center justify-center">
-                <div className="flex border border-black items-end justify-end rounded-full">
-                    <a href="../sign-in" className="flex px-5 py-4 justify-end items-end text-center text-black">Sign In</a>
-                </div>
-                <div className="flex border border-black items-end gap-1.5 justify-end rounded-full bg-green-300">
-                    <a href="../sign-up" className="flex px-5 py-4 justify-end items-end text-center text-black">Sign Up</a>
-                </div>
-            </div>
+        <header className="sticky top-0 z-50 border-b border-[#25231f]/8 bg-[#f6f7f2]/90 px-5 backdrop-blur-xl">
+            <nav className="mx-auto flex h-20 max-w-[1280px] items-center justify-between">
+                <Link href="/" className="shrink-0 text-xl font-black tracking-tight text-[#2f4c28]">
+                    Across<span className="text-[#7c9c57]">Share</span>
+                </Link>
 
-        </main>
+                <div className="hidden items-center justify-center gap-1 lg:flex">
+                {navLinks.map((item) => (
+                    <Link key={item.url} href={item.url} className="rounded-full px-4 py-2.5 text-sm font-bold text-[#686760] transition hover:bg-white hover:text-[#405a31]">
+                        {item.label}
+                    </Link>
+                ))}
+                </div>
+
+                <div className="flex items-center gap-2">
+                    <Link href="/sign-in" className="rounded-full px-4 py-2.5 text-sm font-bold text-[#686760] transition hover:bg-white hover:text-[#405a31]">
+                        Sign in
+                    </Link>
+                    <Link href="/sign-up" className="rounded-full bg-[#5f7f43] px-5 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(95,127,67,0.18)] transition hover:bg-[#526e39]">
+                        Sign up
+                    </Link>
+                </div>
+            </nav>
+        </header>
     )
 }
