@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -11,7 +12,7 @@ export default function Navbar() {
     }
 
 
-    
+
     const navLinks = [
         { label: 'Home', url: '/' },
         { label: 'Features', url: '/#features' },
@@ -23,16 +24,20 @@ export default function Navbar() {
     return (
         <header className="sticky top-0 z-50 border-b border-[#25231f]/8 bg-[#f6f7f2]/90 px-5 backdrop-blur-xl">
             <nav className="mx-auto flex h-20 max-w-[1280px] items-center justify-between">
-                <Link href="/" className="shrink-0 text-xl font-black tracking-tight text-[#2f4c28]">
-                    Across<span className="text-[#7c9c57]">Share</span>
-                </Link>
-
+                <Image
+                    src="/Across Share.png"
+                    alt="Across Share Logo"
+                    height={800}
+                    width={800}
+                    className="w-20 h-20 cursor-pointer"
+                    href="/"
+                />
                 <div className="hidden items-center justify-center gap-1 lg:flex">
-                {navLinks.map((item) => (
-                    <Link key={item.url} href={item.url} className="rounded-full px-4 py-2.5 text-sm font-bold text-[#686760] transition hover:bg-white hover:text-[#405a31]">
-                        {item.label}
-                    </Link>
-                ))}
+                    {navLinks.map((item) => (
+                        <Link key={item.url} href={item.url} className="rounded-full px-4 py-2.5 text-sm font-bold text-[#686760] transition hover:bg-white hover:text-[#405a31]">
+                            {item.label}
+                        </Link>
+                    ))}
                 </div>
 
                 <div className="flex items-center gap-2">

@@ -2,7 +2,12 @@
 
 :root {
   --background: #ffffff;
-  --foreground: rgb(43, 36, 34);
+  --foreground: rgb(25, 46, 3);
+}
+
+*::selection{
+  background-color: rgb(25, 46, 3);
+  color: azure;
 }
 
 @theme inline {
@@ -14,7 +19,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: rgb(43, 36, 34);
+    --background: rgb(25, 46, 3);
     --foreground: #ededed;
   }
 }

@@ -105,7 +105,7 @@ export default function Home() {
                   <Image
                     src={item.image}
                     fill
-                    sizes=""
+                    sizes={0}
                     alt={item.label}
                     className="object-cover transition duration-500 group-hover:scale-[1.03]"
                   />
