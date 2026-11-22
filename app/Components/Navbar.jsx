@@ -23,13 +23,13 @@ export default function Navbar() {
 
     return (
         <header className="sticky top-0 z-50 border-b border-[#25231f]/8 bg-[#f6f7f2]/90 px-5 backdrop-blur-xl">
-            <nav className="mx-auto flex h-20 max-w-[1280px] items-center justify-between">
+            <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between">
                 <Image
-                    src="/Across Share.png"
+                    src="/Across Share.svg"
                     alt="Across Share Logo"
                     height={800}
                     width={800}
-                    className="w-20 h-20 cursor-pointer"
+                    className="w-25 h-25 cursor-pointer"
                     href="/"
                 />
                 <div className="hidden items-center justify-center gap-1 lg:flex">

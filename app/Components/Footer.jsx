@@ -14,14 +14,14 @@ const footLinks = [
 ]
 
     return (
-        <footer className="bg-lime-950 text-white">
-            <div className="mx-auto max-w-[1280px] px-6 py-12 sm:px-10 lg:py-16">
+        <footer className="bg-lime-900 text-white">
+            <div className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:py-16">
                 <Image
                     src="/Across Share.svg"
                     alt="Across Share Logo"
                     height={800}
                     width={800}
-                    className="h-30 w-30 rounded-full bg-lime-400/40"
+                    className="h-30 w-30 border border-lime-900 bg-lime-100 rounded-2xl hover:shadow-xs hover:shadow-amber-400"
                 />
 
                 <div className="mt-10 grid gap-6 md:grid-cols-2">
