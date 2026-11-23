@@ -1,10 +1,16 @@
 "use client";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { FaFacebook, FaYoutube } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa6";
 import { AiFillTikTok } from "react-icons/ai";
 
 export default function Footer() {
+const pathname = usePathname();
+
+if (pathname === "/sign-in" || pathname === "/sign-up") {
+    return null;
+}
 
 const footLinks = [
     {label: "Facebook", url:"https://www.facebook.com", icon: <FaFacebook />},
