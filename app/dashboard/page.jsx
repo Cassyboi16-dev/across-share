@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsInstagram, BsTwitterX } from "react-icons/bs";
 import { CgBulb } from "react-icons/cg";
 import { FaBackward, FaLinkedin, FaTiktok, FaYoutube } from "react-icons/fa";
-import { MdAdd, MdClose, MdCloudUpload, MdDeleteOutline, MdLink, MdMenu } from "react-icons/md";
+import { MdAdd, MdClose, MdCloudUpload, MdDeleteOutline, MdLink, MdMenu, MdSearch } from "react-icons/md";
 
 export default function Dashboard() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -16,6 +16,33 @@ export default function Dashboard() {
     const [ideaContentDraft, setIdeaContentDraft] = useState("");
     const [editingIdeaId, setEditingIdeaId] = useState(null);
     const [ideas, setIdeas] = useState([]);
+    const [ideaSearchQuery, setIdeaSearchQuery] = useState("");
+    const [ideasLoaded, setIdeasLoaded] = useState(false);
+
+    useEffect(() => {
+        try {
+            const savedIdeas = window.localStorage.getItem("across-share-ideas");
+            if (savedIdeas) {
+                setIdeas(JSON.parse(savedIdeas));
+            }
+        } catch {
+            // Ideas remain available for the current session if storage is unavailable.
+        } finally {
+            setIdeasLoaded(true);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!ideasLoaded) {
+            return;
+        }
+
+        try {
+            window.localStorage.setItem("across-share-ideas", JSON.stringify(ideas));
+        } catch {
+            // The in-memory idea list still works if storage is unavailable.
+        }
+    }, [ideas, ideasLoaded]);
 
     function addFiles(event) {
         const newFiles = Array.from(event.target.files || []);
@@ -96,6 +123,11 @@ export default function Dashboard() {
             cancelIdeaEditing();
         }
     }
+
+    const normalizedIdeaSearch = ideaSearchQuery.trim().toLowerCase();
+    const filteredIdeas = ideas.filter((idea) =>
+        `${idea.title} ${idea.content}`.toLowerCase().includes(normalizedIdeaSearch)
+    );
 
     return (
         <main className="min-h-dvh bg-[#f7f8f4] text-[#292b25] md:flex">
@@ -295,7 +327,7 @@ export default function Dashboard() {
                             className="rounded-2xl border border-[#e6e8df] bg-white p-5 shadow-sm sm:p-6"
                         >
                             <h2 className="text-lg font-black tracking-tight">
-                                {editingIdeaId ? "Edit note" : "Add a note"}
+                                {editingIdeaId ? "Edit idea" : "Add an idea"}
                             </h2>
                             <label htmlFor="idea-title" className="mt-4 block text-sm font-bold text-[#3d4f30]">
                                 Title
@@ -336,18 +368,49 @@ export default function Dashboard() {
                                     className="flex min-h-11 items-center gap-2 rounded-xl bg-[#5f7f43] px-5 text-sm font-bold text-white transition hover:bg-[#526e39] disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#71845a]"
                                 >
                                     {!editingIdeaId && <MdAdd className="size-5" aria-hidden="true" />}
-                                    {editingIdeaId ? "Save changes" : "Add note"}
+                                    {editingIdeaId ? "Save changes" : "Add idea"}
                                 </button>
                             </div>
                         </form>
 
                         <div className="mt-8">
                             <h2 className="text-lg font-black tracking-tight">
-                                Your ideas <span className="text-sm font-semibold text-[#92958a]">({ideas.length})</span>
+                                Your ideas <span className="text-sm font-semibold text-[#92958a]">
+                                    ({normalizedIdeaSearch ? filteredIdeas.length : ideas.length})
+                                </span>
                             </h2>
-                            {ideas.length > 0 ? (
+                            {ideas.length > 0 && (
+                                <div className="relative mt-4">
+                                    <MdSearch
+                                        aria-hidden="true"
+                                        className="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2 text-[#92958a]"
+                                    />
+                                    <label htmlFor="idea-search" className="sr-only">
+                                        Search ideas
+                                    </label>
+                                    <input
+                                        id="idea-search"
+                                        type="search"
+                                        value={ideaSearchQuery}
+                                        onChange={(event) => setIdeaSearchQuery(event.target.value)}
+                                        placeholder="Search ideas"
+                                        className="w-full rounded-xl border border-[#dfe4d7] bg-white py-3 pl-10 pr-11 text-sm outline-none transition placeholder:text-[#a0a397] focus:border-[#8da477] focus:ring-2 focus:ring-[#e5eddd]"
+                                    />
+                                    {ideaSearchQuery && (
+                                        <button
+                                            type="button"
+                                            onClick={() => setIdeaSearchQuery("")}
+                                            aria-label="Clear idea search"
+                                            className="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-lg text-[#777a70] transition hover:bg-[#f1f4eb] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#71845a]"
+                                        >
+                                            <MdClose className="size-5" aria-hidden="true" />
+                                        </button>
+                                    )}
+                                </div>
+                            )}
+                            {filteredIdeas.length > 0 ? (
                                 <ul aria-live="polite" className="mt-4 space-y-3">
-                                    {ideas.map((idea) => (
+                                    {filteredIdeas.map((idea) => (
                                         <li
                                             key={idea.id}
                                             className="flex items-center gap-3 rounded-2xl border border-[#e6e8df] bg-white p-3 shadow-sm transition hover:border-[#cbd6bd] hover:shadow-md sm:p-4"
@@ -355,15 +418,22 @@ export default function Dashboard() {
                                             <button
                                                 type="button"
                                                 onClick={() => openIdeaForEditing(idea)}
-                                                aria-label={`Edit note: ${idea.title}`}
-                                                className="min-w-0 flex-1 truncate rounded-lg px-2 py-2 text-left text-sm font-bold text-[#3d4f30] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#71845a]"
+                                                aria-label={`Edit idea: ${idea.title}`}
+                                                className="min-w-0 flex-1 rounded-lg px-2 py-2 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#71845a]"
                                             >
-                                                {idea.title}
+                                                <span className="block truncate text-sm font-bold text-[#3d4f30]">
+                                                    {idea.title}
+                                                </span>
+                                                {idea.content && (
+                                                    <span className="mt-1 block truncate text-xs leading-5 text-[#85887d]">
+                                                        {idea.content}
+                                                    </span>
+                                                )}
                                             </button>
                                             <button
                                                 type="button"
                                                 onClick={() => removeIdea(idea.id)}
-                                                aria-label={`Delete note: ${idea.title}`}
+                                                aria-label={`Delete idea: ${idea.title}`}
                                                 className="flex size-9 shrink-0 items-center justify-center rounded-lg text-[#8a5a50] transition hover:bg-[#fbf0ed] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a66050]"
                                             >
                                                 <MdDeleteOutline className="size-5" aria-hidden="true" />
@@ -371,6 +441,10 @@ export default function Dashboard() {
                                         </li>
                                     ))}
                                 </ul>
+                            ) : ideas.length > 0 ? (
+                                <p className="mt-4 rounded-2xl border border-dashed border-[#dfe4d7] bg-white/70 p-6 text-center text-sm text-[#85887d]">
+                                    No ideas match "{ideaSearchQuery.trim()}".
+                                </p>
                             ) : (
                                 <p className="mt-4 rounded-2xl border border-dashed border-[#dfe4d7] bg-white/70 p-6 text-center text-sm text-[#85887d]">
                                     Your ideas will appear here.
