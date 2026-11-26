@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { BsInstagram, BsTwitterX } from "react-icons/bs";
 import { CgBulb } from "react-icons/cg";
 import { FaBackward, FaLinkedin, FaTiktok, FaYoutube } from "react-icons/fa";
-import { MdAdd, MdClose, MdCloudUpload, MdDeleteOutline, MdLink, MdMenu, MdSearch } from "react-icons/md";
+import { MdAdd, MdClose, MdCloudUpload, MdDeleteOutline, MdEmail, MdLink, MdMenu, MdSearch } from "react-icons/md";
 
 export default function Dashboard() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -253,6 +253,7 @@ export default function Dashboard() {
                                 Available Platforms
                             </h2>
                             <div className="mt-5 grid gap-3 sm:grid-cols-2">
+
                                 <div className="flex items-center gap-3 rounded-2xl border border-[#edf0e8] p-3 sm:p-4">
                                     <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-[#fff1f3] text-2xl text-[#ff0033]">
                                         <FaYoutube aria-hidden="true" />
@@ -262,6 +263,7 @@ export default function Dashboard() {
                                         Connect
                                     </button>
                                 </div>
+
                                 <div className="flex items-center gap-3 rounded-2xl border border-[#edf0e8] p-3 sm:p-4">
                                     <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-[#fdf0f6] text-2xl text-[#d62976]">
                                         <BsInstagram aria-hidden="true" />
@@ -271,6 +273,7 @@ export default function Dashboard() {
                                         Connect
                                     </button>
                                 </div>
+
                                 <div className="flex items-center gap-3 rounded-2xl border border-[#edf0e8] p-3 sm:p-4">
                                     <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-[#f1f1f1] text-2xl text-[#171717]">
                                         <FaTiktok aria-hidden="true" />
@@ -280,6 +283,7 @@ export default function Dashboard() {
                                         Connect
                                     </button>
                                 </div>
+
                                 <div className="flex items-center gap-3 rounded-2xl border border-[#edf0e8] p-3 sm:p-4">
                                     <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-[#eef5fc] text-2xl text-[#0a66c2]">
                                         <FaLinkedin aria-hidden="true" />
@@ -289,6 +293,7 @@ export default function Dashboard() {
                                         Connect
                                     </button>
                                 </div>
+
                                 <div className="flex items-center gap-3 rounded-2xl border border-[#edf0e8] p-3 sm:p-4">
                                     <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-[#f1f1f1] text-2xl text-[#171717]">
                                         <BsTwitterX aria-hidden="true" />
@@ -298,8 +303,43 @@ export default function Dashboard() {
                                         Connect
                                     </button>
                                 </div>
+
+                                <div className="flex items-center gap-3 rounded-2xl border border-[#edf0e8] p-3 sm:p-4">
+                                    <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-[#f1f1f1] text-2xl text-[#171717]">
+                                        <MdEmail aria-hidden="true" />
+                                    </span>
+                                    <span className="min-w-0 flex-1 truncate text-sm font-bold">Email</span>
+                                    <button type="button" aria-label="Connect X" className="rounded-xl bg-[#5f7f43] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#526e39] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#71845a]">
+                                        Connect
+                                    </button>
+                                </div>
+
                             </div>
+
                         </div>
+
+
+
+                        <div className="min-h-dvh bg-[#eaede3a4] rounded-2xl w-full flex items-center justify-center size-7 shadow-sm m-5 shadow-black">
+
+                            <div className="h-80 w-[60%] m-2 gap-8 border bg-[#526e39] rounded-4xl flex flex-col items-center justify-center">
+
+                                <div className="w-full h-10 rounded-sm border border-gray-400">
+
+                                </div>
+
+                                <div className="w-full h-10 rounded-sm border border-gray-400">
+
+                                </div>
+
+                                <div className="w-full h-10 rounded-sm border border-gray-400">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
                     </div>
                 ) : activeView === "planning" ? (
                     <div className="mx-auto max-w-3xl">
